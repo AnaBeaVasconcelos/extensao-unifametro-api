@@ -3,7 +3,6 @@ package com.extensao.unifametro.file.manager.controller;
 import com.extensao.unifametro.file.manager.domain.financeiro.dto.FinanceiroDto;
 //import com.extensao.unifametro.file.manager.mapper.FinanceiroMapper;
 import com.extensao.unifametro.file.manager.service.FinanceiroService;
-import com.extensao.unifametro.file.manager.validator.FinanceiroValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,6 @@ import java.util.List;
 public class FinanceiroController {
 
     private final FinanceiroService service;
-    private final FinanceiroValidator validator;
 
     @GetMapping("/listar")
     public ResponseEntity<List<FinanceiroDto>> listar() {

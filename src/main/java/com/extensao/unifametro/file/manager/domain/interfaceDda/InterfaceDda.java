@@ -2,18 +2,14 @@ package com.extensao.unifametro.file.manager.domain.interfaceDda;
 
 import com.extensao.unifametro.file.manager.enums.StatusEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity(name = "InterfaceDda")
 @Table(name = "interfacedda")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 
