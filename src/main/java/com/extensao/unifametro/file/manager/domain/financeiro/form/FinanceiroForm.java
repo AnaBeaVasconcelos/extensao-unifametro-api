@@ -15,7 +15,6 @@ public class FinanceiroForm {
     private BigDecimal vlrDoc;
     @NotNull
     private Date dtVen;
-    @NotNull
     private Date dtPros;
     @NotNull
     private String nomeParc;

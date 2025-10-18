@@ -4,8 +4,11 @@ import com.extensao.unifametro.file.manager.domain.financeiro.dto.FinanceiroDto;
 //import com.extensao.unifametro.file.manager.mapper.FinanceiroMapper;
 import com.extensao.unifametro.file.manager.service.FinanceiroService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,11 +25,18 @@ public class FinanceiroController {
         return ResponseEntity.ok(service.listar());
     }
 
-    @PutMapping("/comparar-dados-edi")
-    public ResponseEntity<FinanceiroDto> receberDados (@RequestParam Long id) {
-//        return ResponseEntity.ok(service.receberDados(id));
-//        @TODO:  COMPARA  O ARQUIVO ENVIADO NO UPLOAD COM O ARQUIVO DE REMESSA JA INSERIDO NO BANCO
-//          ao passar para a service compara e atualiza os campos necessarios
-        return ResponseEntity.ok().build();
+    @PostMapping("/leitura-dados-edi")
+    public ResponseEntity<Void> receberDados(@RequestParam("file") @NotNull MultipartFile arquivo) {
+        if (arquivo.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        try {
+            service.leituraDados(arquivo);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
