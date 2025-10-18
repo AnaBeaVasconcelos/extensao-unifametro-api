@@ -63,7 +63,6 @@ public class InterfaceDdaService {
                 while ((linha = br.readLine()) != null) {
                     contadorLinhas++;
 
-                    logger.info("Linha {} processada: segmento={}, tipMov={}", contadorLinhas, linha.charAt(13), linha.substring(15, 17));
 
                     if (contadorLinhas < 2) {
                         continue;
@@ -71,13 +70,11 @@ public class InterfaceDdaService {
 
                     char segmento = linha.charAt(13);
                     if (segmento != 'G') {
-                        logger.warn("Linha {} ignorada: segmento inválido '{}'", contadorLinhas, segmento);
                         continue;
                     }
 
                     String tipMov = linha.substring(15, 17);
                     if (!tipMov.equals("01") && !tipMov.equals("02")) {
-                        logger.warn("Linha {} ignorada: tipMov inválido '{}'", contadorLinhas, tipMov);
                         continue;
                     }
 
@@ -99,26 +96,24 @@ public class InterfaceDdaService {
 //                        dataEmissao.substring(5, 9);
 
                     //TODO:TA DANDO ERRO NO VALOR
-//                    String valorString = linha.substring(115, 130).replaceFirst("^0+(?!$)", "");
-//                    BigDecimal vlrDoc = new BigDecimal(valorString).divide(new BigDecimal(100));
+                    String valorString = linha.substring(115, 130).replaceFirst("^0+(?!$)", "");
+                    BigDecimal vlrDoc = new BigDecimal(valorString).divide(new BigDecimal(100));
 
                     String numDoc = linha.substring(147, 162).trim();
 
 //                int count = verificarCodBarra(codBarras); TODO ADD VALIDATOR PELO CODIGO DE BARRAS, SE J[A HOUVER NAO INSERT
 //                if (count <= 0) {
-                    logger.info("Inserindo: codBarras={}, numDoc={}, vlrDoc={}", codBarras, numDoc);
                     repository.inserirDadosArquivoDda(
                             codBarras,
 //                            cnpj,
                             nomeParc,
 //                            dataEmissao,
                             dtVen,
-                            BigDecimal.valueOf(200),
+                            vlrDoc,
                             Long.valueOf(numDoc)
                     );
 //                }
                 }
-                logger.info("Total linhas lidas: {}, processadas: {} (aprox.)", contadorLinhas);
 
             } catch (ParseException e) {
                 throw new IOException("Erro ao parsear datas", e);
